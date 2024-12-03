@@ -41,7 +41,7 @@ sudo pacman -S --noconfirm base-devel git nano curl wget unzip zip ttf-jetbrains
 info "Installing Nerd Fonts..."
 bash -c "$(curl -fsSL https://raw.githubusercontent.com/officialrajdeepsingh/nerd-fonts-installer/main/install.sh)"
 
-# Step 4: Install Developer Tools and Utilities
+# Step 5: Install Developer Tools and Utilities
 info "Installing developer tools and programming languages..."
 sudo pacman -S --noconfirm neovim python-pip python npm nodejs ripgrep go docker jdk17-openjdk gradle
 
@@ -55,12 +55,51 @@ sudo pacman -S --noconfirm yay
 info "Installing Brave Browser..."
 yay -S --noconfirm brave-bin
 
-# Step 5: Install and Configure Docker
+# Step 6: Install and Configure Docker
 info "Configuring Docker..."
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"
 
-# Step 6: Install and Configure Oh My Zsh
+# Step 7: Install and Configure Alacritty
+info "Installing Alacritty..."
+sudo pacman -S --noconfirm alacritty
+
+info "Configuring Alacritty..."
+ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
+mkdir -p "$ALACRITTY_CONFIG_DIR"
+
+if [ -f "alacritty.toml" ]; then
+    cp alacritty.toml "$ALACRITTY_CONFIG_DIR/alacritty.toml"
+    info "Alacritty configuration (TOML) copied to $ALACRITTY_CONFIG_DIR."
+else
+    warning "alacritty.toml not found in the current directory. Please copy it manually to $ALACRITTY_CONFIG_DIR."
+fi
+
+# Step 8: Configure i3 to Use Alacritty
+info "Configuring i3 to use Alacritty..."
+I3_CONFIG="$HOME/.config/i3/config"
+I3_BACKUP="$HOME/.config/i3/config.bak"
+
+if [ -f "$I3_CONFIG" ]; then
+    cp "$I3_CONFIG" "$I3_BACKUP"
+    info "Backup of i3 config created at $I3_BACKUP."
+else
+    warning "i3 config not found. Creating a new config."
+    mkdir -p "$(dirname "$I3_CONFIG")"
+    touch "$I3_CONFIG"
+fi
+
+if grep -q "bindsym \$mod+Return" "$I3_CONFIG"; then
+    sed -i 's|^bindsym \$mod+Return .*|bindsym $mod+Return exec alacritty|' "$I3_CONFIG"
+else
+    echo 'bindsym $mod+Return exec alacritty' >> "$I3_CONFIG"
+fi
+
+info "Reloading i3 configuration..."
+i3-msg reload
+i3-msg restart
+
+# Step 9: Install and Configure Oh My Zsh
 info "Installing Oh My Zsh..."
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
@@ -68,7 +107,7 @@ else
     warning "Oh My Zsh is already installed, skipping..."
 fi
 
-# Step 7: Install LunarVim
+# Step 10: Install LunarVim
 info "Installing LunarVim..."
 if command -v lvim >/dev/null 2>&1; then
     warning "LunarVim is already installed, skipping..."
@@ -76,11 +115,11 @@ else
     LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
 fi
 
-# Step 8: Placeholder for Future Ricing
+# Step 11: Placeholder for Future Ricing
 info "Setting up environment for future ricing..."
 mkdir -p "$HOME/.config/rice"
 
-# Step 9: Finalizing Setup
+# Step 12: Finalizing Setup
 info "Finalizing setup..."
 sudo systemctl daemon-reload
 sudo systemctl restart docker
