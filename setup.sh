@@ -37,6 +37,10 @@ info "Installing base development tools..."
 sudo pacman -S --noconfirm base-devel git nano curl wget unzip zip ttf-jetbrains-mono \
     ttf-nerd-fonts-symbols ttf-font-awesome noto-fonts noto-fonts-emoji
 
+# Step 4: Install Nerd Fonts via Installer
+info "Installing Nerd Fonts..."
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/officialrajdeepsingh/nerd-fonts-installer/main/install.sh)"
+
 # Step 4: Install Developer Tools and Utilities
 info "Installing developer tools and programming languages..."
 sudo pacman -S --noconfirm neovim python-pip python npm nodejs ripgrep go docker jdk17-openjdk gradle
