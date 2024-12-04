@@ -22,7 +22,7 @@ warning() {
 
 # Step 1: Clean Default Folders and create dev folder
 info "Removing unused default folders..."
-rm -rf ~/Music ~/Pictures ~/Public ~/Templates ~/Videos
+rm -rf ~/Music ~/Public ~/Templates ~/Videos ~/Desktop
 mkdir ~/dev
 mv ../dev_setup ~/dev
 
@@ -54,10 +54,9 @@ source "$HOME/.cargo/env"
 info "Installing Yay (AUR Helper)..."
 sudo pacman -S --noconfirm yay
 
-info "Installing Brave Browser..."
-yay -S --noconfirm brave-bin
+info "Installing Zen Browser..."
+yay -S zen-browser-bin --noconfirm
 
-# Step 6: Install and Configure Docker
 info "Configuring Docker..."
 sudo systemctl enable --now docker
 sudo usermod -aG docker "$USER"
@@ -99,14 +98,22 @@ else
 fi
 cp -f config.lua ~/.config/lvim
 
-# Step 11: Placeholder for Future Ricing
+
+# Step 11: Install custom stuff
+info "Installing fun stuff"
+sudo pacman -S --noconfirm spotify-launcher 
+sudo pacman -S --noconfirm discord
+sudo pacman -S --noconfirm steam
+# Add more stuff if needed in the future <3
+
+# Step 12: Placeholder for Future Ricing
 info "Setting up environment for future ricing..."
 mkdir -p "$HOME/.config/rice"
 
-# Step 12: Place Wallpaper in rice folder
+# Step 13: Place Wallpaper in rice folder
 cp ./wallpaper.png "$HOME/.config/rice"
 
-# Step 13: Setup Git
+# Step 14: Setup Git
 info "Checking if SSH key already exists..."
 if [ -f "$HOME/.ssh/id_ed25519" ]; then
     info "SSH key already exists. Skipping key generation."
@@ -119,21 +126,22 @@ fi
 info "Public key is:"
 cat "$HOME/.ssh/id_ed25519.pub"
 
-# Step 14: Apply i3 config
+# Step 15: Apply i3 config
 info "Applying i3 config"
 cp ~/.i3/config ~/.i3/config.bak
-cp -f ./config ~/.i3/config
+cp -f ./config ~/.i3/
+cp -f ./i3blocks.conf ~/.i3/
 i3-msg reload
 
-# Step 15: Finalizing Setup
+# Step 16: Finalizing Setup
 info "Finalizing setup..."
-sudo chsh -s /bin/zsh
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 rm -r JetBrainsMono.zip
 cat .ssh/
+source ~/.zshrc
 
 info "All done! 🎉 Please log out and log back in to ensure all group changes (like Docker) take effect."
+info "Logging out of desktop session in 5 seconds to apply i3 settings ..."
 
-i3-msg exit
-
+wait 5
