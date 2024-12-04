@@ -75,29 +75,10 @@ else
     warning "alacritty.toml not found in the current directory. Please copy it manually to $ALACRITTY_CONFIG_DIR."
 fi
 
-# Step 8: Configure i3 to Use Alacritty
-info "Configuring i3 to use Alacritty..."
-I3_CONFIG="$HOME/.config/i3/config"
-I3_BACKUP="$HOME/.config/i3/config.bak"
-
-if [ -f "$I3_CONFIG" ]; then
-    cp "$I3_CONFIG" "$I3_BACKUP"
-    info "Backup of i3 config created at $I3_BACKUP."
-else
-    warning "i3 config not found. Creating a new config."
-    mkdir -p "$(dirname "$I3_CONFIG")"
-    touch "$I3_CONFIG"
-fi
-
-if grep -q "bindsym \$mod+Return" "$I3_CONFIG"; then
-    sed -i 's|^bindsym \$mod+Return .*|bindsym $mod+Return exec alacritty|' "$I3_CONFIG"
-else
-    echo 'bindsym $mod+Return exec alacritty' >> "$I3_CONFIG"
-fi
-
-info "Reloading i3 configuration..."
-i3-msg reload
-i3-msg restart
+# Step 8: Set Alacritty as Default Terminal Emulator
+info "Setting Alacritty as the default terminal emulator..."
+sudo update-alternatives --install /usr/bin/x-terminal-emulator x-terminal-emulator /usr/bin/alacritty 50
+sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty
 
 # Step 9: Install and Configure Oh My Zsh
 info "Installing Oh My Zsh..."
