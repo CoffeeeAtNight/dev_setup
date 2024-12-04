@@ -97,6 +97,7 @@ if command -v lvim >/dev/null 2>&1; then
 else
     LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
 fi
+cp -f config.lua ~/.config/lvim
 
 # Step 11: Placeholder for Future Ricing
 info "Setting up environment for future ricing..."
@@ -104,18 +105,31 @@ mkdir -p "$HOME/.config/rice"
 
 # Step 12: Place Wallpaper in rice folder
 cp ./wallpaper.png "$HOME/.config/rice"
-# feh --bg-scale "$HOME/.config/rice/wallpaper.png"
 
-# Step 13: Apply i3 config
+# Step 13: Setup Git
+info "Checking if SSH key already exists..."
+if [ -f "$HOME/.ssh/id_ed25519" ]; then
+    info "SSH key already exists. Skipping key generation."
+else
+    info "Generating SSH key..."
+    ssh-keygen -t ed25519 -C "contact@aki-dev.com" -f "$HOME/.ssh/id_ed25519" -N ""
+    info "SSH key generated successfully."
+fi
+
+info "Public key is:"
+cat "$HOME/.ssh/id_ed25519.pub"
+
+# Step 14: Apply i3 config
+info "Applying i3 config"
 cp ~/.i3/config ~/.i3/config.bak
-rm ~/.i3/config
-cp ./config ~/.i3/config
+cp -f ./config ~/.i3/config
 i3-msg reload
 
-# Step 12: Finalizing Setup
+# Step 15: Finalizing Setup
 info "Finalizing setup..."
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 rm -r JetBrainsMono.zip
+cat .ssh/
 
 info "All done! 🎉 Please log out and log back in to ensure all group changes (like Docker) take effect."
