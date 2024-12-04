@@ -106,7 +106,6 @@ mkdir -p "$HOME/.config/rice"
 cp ./wallpaper.png "$HOME/.config/rice"
 feh --bg-scale "$HOME/.config/rice/wallpaper.png"
 
-
 # Step 12: Finalizing Setup
 info "Finalizing setup..."
 sudo systemctl daemon-reload
