@@ -20,9 +20,11 @@ warning() {
     echo -e "${BOLD}${YELLOW}[WARNING]${RESET} $1"
 }
 
-# Step 1: Clean Default Folders
+# Step 1: Clean Default Folders and create dev folder
 info "Removing unused default folders..."
 rm -rf ~/Music ~/Pictures ~/Public ~/Templates ~/Videos
+mkdir ~/dev
+mv ../dev_setup ~/dev
 
 # Step 2: Update Keyring and Repositories
 info "Updating keyring and repositories..."
