@@ -127,9 +127,13 @@ i3-msg reload
 
 # Step 15: Finalizing Setup
 info "Finalizing setup..."
+sudo chsh -s /bin/zsh
 sudo systemctl daemon-reload
 sudo systemctl restart docker
 rm -r JetBrainsMono.zip
 cat .ssh/
 
 info "All done! 🎉 Please log out and log back in to ensure all group changes (like Docker) take effect."
+
+i3-msg exit
+
