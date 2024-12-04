@@ -36,7 +36,7 @@ sudo pacman -Syyu --noconfirm
 
 # Step 3: Install Base Packages
 info "Installing base development tools..."
-sudo pacman -S --noconfirm base-devel git nano curl wget unzip zip ttf-jetbrains-mono \
+sudo pacman -S --noconfirm base-devel git feh nano curl wget unzip zip ttf-jetbrains-mono \
     ttf-nerd-fonts-symbols ttf-font-awesome noto-fonts noto-fonts-emoji
 
 # Step 4: Install Nerd Fonts via Installer
@@ -101,6 +101,11 @@ fi
 # Step 11: Placeholder for Future Ricing
 info "Setting up environment for future ricing..."
 mkdir -p "$HOME/.config/rice"
+
+# Step 12: Place Wallpaper in rice folder
+cp ./wallpaper.png "$HOME/.config/rice"
+feh --bg-scale "$HOME/.config/rice/wallpaper.png"
+
 
 # Step 12: Finalizing Setup
 info "Finalizing setup..."
