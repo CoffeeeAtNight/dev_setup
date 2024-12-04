@@ -110,5 +110,6 @@ feh --bg-scale "$HOME/.config/rice/wallpaper.png"
 info "Finalizing setup..."
 sudo systemctl daemon-reload
 sudo systemctl restart docker
+rm -r JetBrainsMono.zip
 
 info "All done! 🎉 Please log out and log back in to ensure all group changes (like Docker) take effect."
