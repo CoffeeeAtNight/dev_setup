@@ -104,7 +104,13 @@ mkdir -p "$HOME/.config/rice"
 
 # Step 12: Place Wallpaper in rice folder
 cp ./wallpaper.png "$HOME/.config/rice"
-feh --bg-scale "$HOME/.config/rice/wallpaper.png"
+# feh --bg-scale "$HOME/.config/rice/wallpaper.png"
+
+# Step 13: Apply i3 config
+cp ~/.i3/config ~/.i3/config.bak
+rm ~/.i3/config
+cp ./config ~/.i3/config
+i3-msg reload
 
 # Step 12: Finalizing Setup
 info "Finalizing setup..."
