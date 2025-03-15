@@ -12,12 +12,12 @@ RESET=$(tput sgr0)
 
 # Helper Function: Print Info
 info() {
-    echo -e "${BOLD}${GREEN}[INFO]${RESET} $1"
+  echo -e "${BOLD}${GREEN}[INFO]${RESET} $1"
 }
 
 # Helper Function: Print Warning
 warning() {
-    echo -e "${BOLD}${YELLOW}[WARNING]${RESET} $1"
+  echo -e "${BOLD}${YELLOW}[WARNING]${RESET} $1"
 }
 
 # Step 1: Clean Default Folders and create dev folder
@@ -37,7 +37,7 @@ sudo pacman -Syyu --noconfirm
 # Step 3: Install Base Packages
 info "Installing base development tools..."
 sudo pacman -S --noconfirm base-devel git feh nano curl wget unzip zip ttf-jetbrains-mono \
-    ttf-nerd-fonts-symbols ttf-font-awesome noto-fonts noto-fonts-emoji
+  ttf-nerd-fonts-symbols ttf-font-awesome noto-fonts noto-fonts-emoji
 
 # Step 4: Install Nerd Fonts via Installer
 info "Installing Nerd Fonts..."
@@ -70,10 +70,10 @@ ALACRITTY_CONFIG_DIR="$HOME/.config/alacritty"
 mkdir -p "$ALACRITTY_CONFIG_DIR"
 
 if [ -f "alacritty.toml" ]; then
-    cp alacritty.toml "$ALACRITTY_CONFIG_DIR/alacritty.toml"
-    info "Alacritty configuration (TOML) copied to $ALACRITTY_CONFIG_DIR."
+  cp alacritty.toml "$ALACRITTY_CONFIG_DIR/alacritty.toml"
+  info "Alacritty configuration (TOML) copied to $ALACRITTY_CONFIG_DIR."
 else
-    warning "alacritty.toml not found in the current directory. Please copy it manually to $ALACRITTY_CONFIG_DIR."
+  warning "alacritty.toml not found in the current directory. Please copy it manually to $ALACRITTY_CONFIG_DIR."
 fi
 
 # Step 8: Set Alacritty as Default Terminal Emulator
@@ -85,21 +85,22 @@ sudo update-alternatives --set x-terminal-emulator /usr/bin/alacritty
 info "Installing Oh My Zsh..."
 sudo pacman -S --noconfirm zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else
-    warning "Oh My Zsh is already installed, skipping..."
+  warning "Oh My Zsh is already installed, skipping..."
 fi
 
 # Step 10: Install LunarVim
 info "Installing LunarVim..."
 if command -v lvim >/dev/null 2>&1; then
-    warning "LunarVim is already installed, skipping..."
+  warning "LunarVim is already installed, skipping..."
 else
-    LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
+  LV_BRANCH='release-1.4/neovim-0.9' bash <(curl -s https://raw.githubusercontent.com/LunarVim/LunarVim/release-1.4/neovim-0.9/utils/installer/install.sh)
 fi
 cp -f config.lua ~/.config/lvim
-echo 'alias lvim="/home/lu/.local/bin/lvim"' >> ~/.zshrc
+echo 'alias lvim="/home/lu/.local/bin/lvim"' >>~/.zshrc
 
+yay -S pokemon-colorscripts-git --noconfirm
 
 # Step 11: Install custom stuff
 info "Installing fun stuff"
@@ -118,11 +119,11 @@ cp ./wallpaper.png "$HOME/.config/rice"
 # Step 14: Setup Git
 info "Checking if SSH key already exists..."
 if [ -f "$HOME/.ssh/id_ed25519" ]; then
-    info "SSH key already exists. Skipping key generation."
+  info "SSH key already exists. Skipping key generation."
 else
-    info "Generating SSH key..."
-    ssh-keygen -t ed25519 -C "contact@aki-dev.com" -f "$HOME/.ssh/id_ed25519" -N ""
-    info "SSH key generated successfully."
+  info "Generating SSH key..."
+  ssh-keygen -t ed25519 -C "contact@aki-dev.com" -f "$HOME/.ssh/id_ed25519" -N ""
+  info "SSH key generated successfully."
 fi
 
 info "Public key is:"
@@ -135,7 +136,7 @@ I3_CONFIG_DIR="$HOME/.config/i3"
 
 # Backup the original i3 config if it exists
 if [ -f "$I3_CONFIG_DIR/config" ]; then
-    cp "$I3_CONFIG_DIR/config" "$I3_CONFIG_DIR/config.bak"
+  cp "$I3_CONFIG_DIR/config" "$I3_CONFIG_DIR/config.bak"
 fi
 
 # Copy the new config and i3blocks.conf files
@@ -157,4 +158,3 @@ info "All done! 🎉 Please log out and log back in to ensure all group changes 
 info "Logging out of desktop session in 5 seconds to apply i3 settings ..."
 
 wait 5
-
